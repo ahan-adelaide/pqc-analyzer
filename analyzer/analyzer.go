@@ -83,9 +83,7 @@ func pqcAnalyze(pass *analysis.Pass) (any, error) {
 				if assignment, ok := token.(*ast.AssignStmt); ok {
 					for _, expr := range assignment.Rhs {
 						if callExpr, ok := expr.(*ast.CallExpr); ok {
-							if slices.Contains(fnIdentifiers, callExpr.Fun.(*ast.Ident).Name) {
-								pass.Reportf(callExpr.Fun.Pos(), "function %s is quantum-vulnerable", callExpr.Fun.(*ast.Ident).Name)
-							}
+							pass.Reportf(callExpr.Fun.Pos(), "test", callExpr.Fun.(*ast.Ident).Name)
 						}
 					}
 				}
