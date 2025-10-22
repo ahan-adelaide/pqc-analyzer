@@ -6,7 +6,6 @@ import (
 	"flag"
 	"fmt"
 	"go/ast"
-	"go/parser"
 	"slices"
 	"strconv"
 
