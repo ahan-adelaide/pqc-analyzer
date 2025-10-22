@@ -49,6 +49,7 @@ var fnIdentifiers = []string{
 	"SignASN1",
 	"VerifyASN1",
 	"NewTripleDESCipher",
+	"MarshalPKCS1PrivateKey",
 	"ParsePKCS1PrivateKey",
 	"ParseECPrivateKey",
 }
