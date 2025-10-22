@@ -68,8 +68,6 @@ func pqcAnalyze(pass *analysis.Pass) (any, error) {
 				pass.Reportf(currImport.Pos(), "%s uses quantum-vulnerable integer factorization cryptography", currImport.Path.Value)
 			}
 		}
-		pass.Reportf(file.Pos(), "file decls are %d", len(file.Decls))
-		
 		
 		for _, decl := range file.Decls {
 			funcDecl, ok := decl.(*ast.FuncDecl)
@@ -77,13 +75,9 @@ func pqcAnalyze(pass *analysis.Pass) (any, error) {
 				continue
 			}
 			
-			pass.Reportf(funcDecl.Pos(), "%s", funcDecl.Name.Name)
-			
-			if funcDecl.Body != nil {
+			if funcDecl.Body == nil {
 				continue
 			}
-			
-			pass.Reportf(funcDecl.Pos(), "%s", funcDecl.Name.Name)
 			
 			for _, token := range funcDecl.Body.List {
 				if assignment, ok := token.(*ast.AssignStmt); ok {
