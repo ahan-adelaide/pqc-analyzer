@@ -83,7 +83,9 @@ func pqcAnalyze(pass *analysis.Pass) (any, error) {
 				if assignment, ok := token.(*ast.AssignStmt); ok {
 					for _, expr := range assignment.Rhs {
 						if callExpr, ok := expr.(*ast.CallExpr); ok {
-							pass.Reportf(callExpr.Fun.Pos(), "test %s", callExpr.Fun.(*ast.SelectorExpr).Sel.Name)
+							if fnIdentifier, ok := callExpr.Fun.(*ast.Ident); ok && slices.Contains(fnIdentifiers, fnIdentifier.Name) {
+								pass.Reportf(fnIdentifier.Pos(), `function "%s" implements quantum-vulnerable cryptography`, fnIdentifier.Name)
+							}
 						}
 					}
 				}
