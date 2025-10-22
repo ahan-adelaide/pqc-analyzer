@@ -79,6 +79,8 @@ func pqcAnalyze(pass *analysis.Pass) (any, error) {
 				continue
 			}
 			
+			pass.Reportf(funcDecl.Pos(), "%s", funcDecl.Name.Name)
+			
 			for _, token := range funcDecl.Body.List {
 				if assignment, ok := token.(*ast.AssignStmt); ok {
 					for _, expr := range assignment.Rhs {
