@@ -62,7 +62,7 @@ func pqcAnalyze(pass *analysis.Pass) (any, error) {
 				pass.Reportf(currImport.Pos(), "%s uses quantum-vulnerable elliptic curve cryptography", currImport.Path.Value)
 			}
 			if slices.Contains(ifImportPaths, importPath) {
-				pass.Reportf(currImport.Pos(), "%s uses quantum-vulnerable integer factorization cryptography. use \"crypto/mlkem\" instead.", currImport.Path.Value)
+				pass.Reportf(currImport.Pos(), "%s uses quantum-vulnerable integer factorization cryptography", currImport.Path.Value)
 			}
 		}
 		
