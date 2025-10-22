@@ -8,6 +8,7 @@ import (
 	"go/ast"
 	"slices"
 	"strconv"
+	"strings"
 
 	"golang.org/x/tools/go/analysis"
 )
@@ -35,23 +36,32 @@ var keyExchangePaths = []string{
 	"crypto/ecdh",
 }
 
+type QvFunction struct {
+	FnName string
+	Package string
+}
+
 // Identifiers of functions that implement quantum-vulnerable algorithms.
-var fnIdentifiers = []string{
-	"DecryptOAEP",
-	"DecryptPKCS1v15",
-	"DecryptPKCS1v15SessionKey",
-	"EncryptOAEP",
-	"EncryptPKCS1v15",
-	"SignPKCS1v15",
-	"SignPSS",
-	"VerifyPKCS1v15",
-	"VerifyPSS",
-	"SignASN1",
-	"VerifyASN1",
-	"NewTripleDESCipher",
-	"x509.MarshalPKCS1PrivateKey",
-	"x509.ParsePKCS1PrivateKey",
-	"x509.ParseECPrivateKey",
+var fnIdentifiers = []QvFunction{
+	{"DecryptOAEP","crypto/rsa"},
+	{"DecryptPKCS1v15","crypto/rsa"},
+	{"DecryptPKCS1v15SessionKey","crypto/rsa"},
+	{"EncryptOAEP","crypto/rsa"},
+	{"EncryptPKCS1v15","crypto/rsa"},
+	{"SignPKCS1v15","crypto/rsa"},
+	{"SignPSS","crypto/rsa"},
+	{"VerifyPKCS1v15","crypto/rsa"},
+	{"VerifyPSS","crypto/rsa"},
+	{"SignASN1","crypto/ecdsa"},
+	{"VerifyASN1","crypto/ecdsa"},
+	{"NewTripleDESCipher","crypto/des"},
+	{"MarshalPKCS1PrivateKey","crypto/x509"},
+	{"MarshalECPrivateKey","crypto/x509"},
+	{"ParsePKCS1PrivateKey","crypto/x509"},
+	{"ParseECPrivateKey","crypto/x509"},
+	{"Verify","crypto/dsa"},
+	{"Sign","crypto/dsa"},
+	{"GenerateKey","crypto/dsa"},
 }
 
 func pqcAnalyze(pass *analysis.Pass) (any, error) {
@@ -83,8 +93,10 @@ func pqcAnalyze(pass *analysis.Pass) (any, error) {
 				if assignment, ok := token.(*ast.AssignStmt); ok {
 					for _, expr := range assignment.Rhs {
 						if callExpr, ok := expr.(*ast.CallExpr); ok {
-							if fnIdentifier, ok := callExpr.Fun.(*ast.Ident); ok && !slices.Contains(fnIdentifiers, fnIdentifier.Name) {
-								pass.Reportf(fnIdentifier.Pos(), `function "%s" implements quantum-vulnerable cryptography`, fnIdentifier.Name)
+							if selector, ok := callExpr.Fun.(*ast.SelectorExpr); ok {
+								if fnName, vulnerable := vulnerableFunction(file.Imports, selector, selector.X); vulnerable {
+									pass.Reportf(selector.X.Pos(), `function "%s" implements quantum-vulnerable cryptography`, fnName)
+								}
 							}
 						}
 					}
@@ -94,6 +106,42 @@ func pqcAnalyze(pass *analysis.Pass) (any, error) {
 	}
 	
 	return nil, nil
+}
+
+// Returns the name of the function (including its package specifier) if true.
+func vulnerableFunction(imports []*ast.ImportSpec, selector *ast.SelectorExpr, fn ast.Expr) (string, bool) {
+	idx := slices.IndexFunc(imports, func (importSpec *ast.ImportSpec) bool {
+		importName, _ := strings.CutSuffix(importSpec.Name.Name, ".")
+		return importName == selector.Sel.Name
+	})
+	
+	if idx == -1 {
+		return "", false
+	}
+	
+	importPath, err := strconv.Unquote(imports[idx].Path.Value)
+	if err != nil {
+		return "", false
+	}
+	importName, err := strconv.Unquote(imports[idx].Name.Name)
+	if err != nil {
+		return "", false
+	}
+	fnIdent, ok := fn.(*ast.Ident)
+	if !ok {
+		return "", false
+	}
+	functionName := fnIdent.Name
+	
+	idx = slices.IndexFunc(fnIdentifiers, func (qvFunc QvFunction) bool {
+		return qvFunc.FnName == functionName && importPath == qvFunc.Package
+	})
+	
+	if idx == -1 {
+		return "", false
+	}
+	
+	return importName + functionName, fnIdentifiers[idx].FnName == functionName && fnIdentifiers[idx].Package == importPath
 }
 
 var PqcAnalyzer = analysis.Analyzer{
