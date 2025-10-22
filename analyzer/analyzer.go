@@ -49,6 +49,8 @@ var fnIdentifiers = []string{
 	"SignASN1",
 	"VerifyASN1",
 	"NewTripleDESCipher",
+	"ParsePKCS1PrivateKey",
+	"ParseECPrivateKey",
 }
 
 func pqcAnalyze(pass *analysis.Pass) (any, error) {
