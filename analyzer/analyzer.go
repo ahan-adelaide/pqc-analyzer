@@ -108,11 +108,20 @@ func pqcAnalyze(pass *analysis.Pass) (any, error) {
 	return nil, nil
 }
 
+func getLocalImportName(importSpec *ast.ImportSpec) string {
+	if importSpec.Name != nil {
+		return importSpec.Name.Name
+	}
+	
+	importPath, _ := strconv.Unquote(importSpec.Path.Value)
+	importPathComponents := strings.Split(importPath, "/")
+	return importPathComponents[len(importPathComponents) - 1]
+}
+
 // Returns the name of the function (including its package specifier) if true.
 func vulnerableFunction(imports []*ast.ImportSpec, selector *ast.SelectorExpr, fn ast.Expr) (string, bool) {
 	idx := slices.IndexFunc(imports, func (importSpec *ast.ImportSpec) bool {
-		importName, _ := strings.CutSuffix(importSpec.Name.Name, ".")
-		return importName == selector.Sel.Name
+		return getLocalImportName(importSpec) == selector.Sel.Name
 	})
 	
 	if idx == -1 {
@@ -123,7 +132,7 @@ func vulnerableFunction(imports []*ast.ImportSpec, selector *ast.SelectorExpr, f
 	if err != nil {
 		return "", false
 	}
-	importName, err := strconv.Unquote(imports[idx].Name.Name)
+	importName := getLocalImportName(imports[idx])
 	if err != nil {
 		return "", false
 	}
