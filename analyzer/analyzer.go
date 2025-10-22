@@ -77,6 +77,8 @@ func pqcAnalyze(pass *analysis.Pass) (any, error) {
 				continue
 			}
 			
+			pass.Reportf(funcDecl.Pos(), "%s", funcDecl.Name.Name)
+			
 			if funcDecl.Body != nil {
 				continue
 			}
