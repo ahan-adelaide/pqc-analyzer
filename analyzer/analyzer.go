@@ -97,9 +97,9 @@ func pqcAnalyze(pass *analysis.Pass) (any, error) {
 					for _, expr := range assignment.Rhs {
 						if callExpr, ok := expr.(*ast.CallExpr); ok {
 							if selector, ok := callExpr.Fun.(*ast.SelectorExpr); ok {
-								if fnName, vulnerable := vulnerableFunction(file.Imports, selector, selector.X); vulnerable {
-									pass.Reportf(selector.X.Pos(), `function "%s" implements quantum-vulnerable cryptography`, fnName)
-								}
+								//if fnName, vulnerable := vulnerableFunction(file.Imports, selector, selector.X); vulnerable {
+									pass.Reportf(selector.X.Pos(), `function "%s%s" implements quantum-vulnerable cryptography`, selector.Sel.Name, selector.X.(*ast.Ident).Name)
+								//}
 							}
 						}
 					}
