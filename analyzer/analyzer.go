@@ -66,6 +66,9 @@ var fnIdentifiers = []QvFunction{
 
 func pqcAnalyze(pass *analysis.Pass) (any, error) {
 	for _, file := range pass.Files {
+		if file.Name != nil && strings.HasSuffix(file.Name.Name, "_test") {
+			continue
+		}
 		for _, currImport := range file.Imports {
 			importPath, err := strconv.Unquote(currImport.Path.Value)
 			if err != nil {
@@ -133,9 +136,6 @@ func vulnerableFunction(imports []*ast.ImportSpec, selector *ast.SelectorExpr, f
 		return "", false
 	}
 	importName := getLocalImportName(imports[idx])
-	if err != nil {
-		return "", false
-	}
 	fnIdent, ok := fn.(*ast.Ident)
 	if !ok {
 		return "", false
