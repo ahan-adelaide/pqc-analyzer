@@ -1,0 +1,63 @@
+
+# Sample output running against the kubernetes project:
+
+/home/user/kubernetes/cmd/kubelet/app/server_bootstrap_test.go:20:2: "crypto/ecdsa" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/cmd/kubelet/app/server_bootstrap_test.go:21:2: "crypto/elliptic" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/cmd/kubelet/app/server_bootstrap_test.go:365:17: function "x509.MarshalECPrivateKey" implements quantum-vulnerable cryptography
+/home/user/kubernetes/cmd/kube-apiserver/app/testing/testserver.go:21:2: "crypto/ecdsa" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/cmd/kube-apiserver/app/testing/testserver.go:22:2: "crypto/elliptic" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/cmd/kube-apiserver/app/testing/testserver.go:24:2: "crypto/rsa" uses quantum-vulnerable integer factorization cryptography
+/home/user/kubernetes/cmd/kubeadm/app/util/pkiutil/pki_helpers.go:22:2: "crypto/ecdsa" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/cmd/kubeadm/app/util/pkiutil/pki_helpers.go:23:2: "crypto/elliptic" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/cmd/kubeadm/app/util/pkiutil/pki_helpers.go:25:2: "crypto/rsa" uses quantum-vulnerable integer factorization cryptography
+/home/user/kubernetes/cmd/kubeadm/app/util/pkiutil/pki_helpers_test.go:21:2: "crypto/ecdsa" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/cmd/kubeadm/app/util/pkiutil/pki_helpers_test.go:22:2: "crypto/elliptic" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/pkg/controller/certificates/signer/signer_test.go:21:2: "crypto/ecdsa" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/pkg/controller/certificates/signer/signer_test.go:22:2: "crypto/elliptic" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/pkg/registry/certificates/certificates/declarative_validation_test.go:21:2: "crypto/ed25519" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/pkg/registry/certificates/podcertificaterequest/strategy_test.go:21:2: "crypto/ed25519" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/pkg/kubelet/certificate/bootstrap/bootstrap.go:22:2: "crypto/rsa" uses quantum-vulnerable integer factorization cryptography
+/home/user/kubernetes/pkg/serviceaccount/jwt.go:22:2: "crypto/ecdsa" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/pkg/serviceaccount/jwt.go:23:2: "crypto/elliptic" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/pkg/serviceaccount/jwt.go:24:2: "crypto/rsa" uses quantum-vulnerable integer factorization cryptography
+/home/user/kubernetes/pkg/serviceaccount/openidmetadata.go:22:2: "crypto/ecdsa" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/pkg/serviceaccount/openidmetadata.go:23:2: "crypto/elliptic" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/pkg/serviceaccount/openidmetadata.go:24:2: "crypto/rsa" uses quantum-vulnerable integer factorization cryptography
+/home/user/kubernetes/pkg/serviceaccount/externaljwt/plugin/plugin_test.go:22:2: "crypto/rsa" uses quantum-vulnerable integer factorization cryptography
+/home/user/kubernetes/pkg/kubeapiserver/options/authentication_test.go:22:2: "crypto/rsa" uses quantum-vulnerable integer factorization cryptography
+/home/user/kubernetes/staging/src/k8s.io/client-go/util/cert/cert.go:23:2: "crypto/rsa" uses quantum-vulnerable integer factorization cryptography
+/home/user/kubernetes/staging/src/k8s.io/client-go/util/cert/csr.go:21:2: "crypto/rsa" uses quantum-vulnerable integer factorization cryptography
+/home/user/kubernetes/staging/src/k8s.io/client-go/util/certificate/certificate_manager.go:21:2: "crypto/ecdsa" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/staging/src/k8s.io/client-go/util/certificate/certificate_manager.go:22:2: "crypto/elliptic" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/staging/src/k8s.io/client-go/util/certificate/certificate_manager.go:24:2: "crypto/rsa" uses quantum-vulnerable integer factorization cryptography
+/home/user/kubernetes/staging/src/k8s.io/client-go/util/certificate/certificate_manager.go:771:14: function "x509.MarshalECPrivateKey" implements quantum-vulnerable cryptography
+/home/user/kubernetes/staging/src/k8s.io/client-go/plugin/pkg/client/auth/exec/exec_test.go:21:2: "crypto/ecdsa" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/staging/src/k8s.io/client-go/plugin/pkg/client/auth/exec/exec_test.go:22:2: "crypto/elliptic" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/staging/src/k8s.io/client-go/plugin/pkg/client/auth/exec/exec_test.go:1239:17: function "x509.MarshalECPrivateKey" implements quantum-vulnerable cryptography
+/home/user/kubernetes/staging/src/k8s.io/apiserver/pkg/server/options/serving_test.go:23:2: "crypto/rsa" uses quantum-vulnerable integer factorization cryptography
+/home/user/kubernetes/vendor/golang.org/x/crypto/ssh/cipher.go:461:12: function "des.NewTripleDESCipher" implements quantum-vulnerable cryptography
+/home/user/kubernetes/vendor/golang.org/x/crypto/ssh/kex.go:9:2: "crypto/ecdsa" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/vendor/golang.org/x/crypto/ssh/kex.go:10:2: "crypto/elliptic" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/vendor/golang.org/x/crypto/ssh/keys.go:12:2: "crypto/dsa" uses quantum-vulnerable integer factorization cryptography
+/home/user/kubernetes/vendor/golang.org/x/crypto/ssh/keys.go:13:2: "crypto/ecdsa" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/vendor/golang.org/x/crypto/ssh/keys.go:14:2: "crypto/ed25519" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/vendor/golang.org/x/crypto/ssh/keys.go:15:2: "crypto/elliptic" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/vendor/golang.org/x/crypto/ssh/keys.go:18:2: "crypto/rsa" uses quantum-vulnerable integer factorization cryptography
+/home/user/kubernetes/vendor/golang.org/x/crypto/ssh/keys.go:657:15: function "dsa.Sign" implements quantum-vulnerable cryptography
+/home/user/kubernetes/vendor/gopkg.in/go-jose/go-jose.v2/asymmetric.go:22:2: "crypto/ecdsa" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/vendor/gopkg.in/go-jose/go-jose.v2/asymmetric.go:24:2: "crypto/rsa" uses quantum-vulnerable integer factorization cryptography
+/home/user/kubernetes/vendor/gopkg.in/go-jose/go-jose.v2/crypter.go:20:2: "crypto/ecdsa" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/vendor/gopkg.in/go-jose/go-jose.v2/crypter.go:21:2: "crypto/rsa" uses quantum-vulnerable integer factorization cryptography
+/home/user/kubernetes/vendor/gopkg.in/go-jose/go-jose.v2/jwk.go:22:2: "crypto/ecdsa" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/vendor/gopkg.in/go-jose/go-jose.v2/jwk.go:23:2: "crypto/elliptic" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/vendor/gopkg.in/go-jose/go-jose.v2/jwk.go:24:2: "crypto/rsa" uses quantum-vulnerable integer factorization cryptography
+/home/user/kubernetes/vendor/gopkg.in/go-jose/go-jose.v2/shared.go:20:2: "crypto/elliptic" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/vendor/gopkg.in/go-jose/go-jose.v2/signing.go:21:2: "crypto/ecdsa" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/vendor/gopkg.in/go-jose/go-jose.v2/signing.go:22:2: "crypto/rsa" uses quantum-vulnerable integer factorization cryptography
+/home/user/kubernetes/test/utils/pki_helpers.go:22:2: "crypto/rsa" uses quantum-vulnerable integer factorization cryptography
+/home/user/kubernetes/test/utils/oidc/testserver.go:21:2: "crypto/ecdsa" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/test/utils/oidc/testserver.go:22:2: "crypto/rsa" uses quantum-vulnerable integer factorization cryptography
+/home/user/kubernetes/test/integration/client/cert_rotation_test.go:22:2: "crypto/rsa" uses quantum-vulnerable integer factorization cryptography
+/home/user/kubernetes/test/integration/auth/auth_test.go:26:2: "crypto/ed25519" uses quantum-vulnerable elliptic curve cryptography
+/home/user/kubernetes/test/integration/auth/requestheader_test.go:21:2: "crypto/rsa" uses quantum-vulnerable integer factorization cryptography
+/home/user/kubernetes/test/e2e/auth/projected_clustertrustbundle.go:21:2: "crypto/ed25519" uses quantum-vulnerable elliptic curve cryptography
